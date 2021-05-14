@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoSvg from "../img/todo.png";
+
+const getItems = ()=> {
+    let list = JSON.parse(localStorage.getItem('lists'));
+
+    if(list) {
+        return JSON.parse(localStorage.getItem('lists'))
+    }
+    else {
+        return []
+    }
+}
 
 function Todo() {
 
     const [inputData, setInputData] = useState('');
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(getItems());
 
     const addItem = () => {
         if (!inputData) {
@@ -29,6 +40,11 @@ function Todo() {
     const removeAll = ()=> {
         setItems([])
     }
+
+    // item add in Localstorage
+    useEffect(()=> {
+        localStorage.setItem('lists',JSON.stringify(items))
+    },[items])
 
     return (
         <>
